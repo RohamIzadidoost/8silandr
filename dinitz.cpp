@@ -1,3 +1,4 @@
+Dinic:
 int from[MAXE], to[MAXE], cap[MAXE], prv[MAXE], head[MAXN], pt[MAXN], ec;
 void addEdge(int u, int v, int uv, int vu = 0){
 	from[ec] = u, to[ec] = v, cap[ec] = uv, prv[ec] = head[u], head[u] = ec++;
@@ -43,3 +44,6 @@ int dinic(int source, int sink){
 	}
 	return ret;
 }
+
+	memset(head, -1, sizeof(head));
+//mohem
