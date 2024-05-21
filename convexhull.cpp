@@ -1,4 +1,4 @@
-
+// Salam
 struct pt {
     double x, y;
     bool typ;
