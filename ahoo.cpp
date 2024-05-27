@@ -21,3 +21,4 @@ void BuildAho(){
         }
     }
 }//
+for(int i = 1 ; i <= ts  ; i++ ) adj[f[i]].pb(i) ;
