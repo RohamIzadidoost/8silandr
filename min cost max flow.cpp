@@ -1,42 +1,81 @@
-const int FN = 2 * maxn , FM = maxn * maxn / 2 ; 
-int head[FN], Q[FN*30], par[FN], inq[FN], L, R;
-ld dist[FN], cost[FM<<1], ans;
-const ld eps=1e-7;
-inline void add_edge(int u, int v, int c, ld w){
-	to[M]=v, cap[M]=c, cost[M]=w, prv[M]=head[u], head[u]=M++;
-	to[M]=u, cap[M]=0, cost[M]=-w, prv[M]=head[v], head[v]=M++;
-}
-bool Flow(int src, int snk){
-	fill(dist, dist+FN, inf);
-	L=R=0;
-	dist[Q[R++]=src]=0;
-	inq[src]=1;
-	bool res=0;
-	while (L^R){
-		int v=Q[L++];
-		res|=(v==snk);
-		inq[v]=0;
-		for (int i=head[v]; ~i; i=prv[i]) if (cap[i]){
-			int u=to[i];
-			if (dist[u]>1e-7+dist[v]+cost[i]){
-				dist[u]=dist[v]+cost[i];
-				par[u]=i;
-				if (!inq[u]){
-					inq[u]=1;
-					Q[R++]=u;
+ 
+template<typename F, typename C, int MAXN, int MAXM>
+struct MinCostMaxFlow {
+	struct Edge {
+		int from, to;
+		F cap;
+		C cost;
+	};
+ 
+ 
+	Edge E[2 * MAXM];
+	int m, par[MAXN], s, t;
+	C dist[MAXN], cost = 0;
+	F mn[MAXN], flow = 0;
+	vector<int> adj[MAXN];
+ 
+	inline void add_edge(int u, int v, F cap, C cost) {
+		adj[u].push_back(m);
+		E[m++] = {u, v, cap, cost};
+		adj[v].push_back(m);
+		E[m++] = {v, u, 0, -cost};
+	}
+ 
+	inline void SPFA() {
+		fill(dist, dist + MAXN, numeric_limits<C>::max());
+		fill(par, par + MAXN, -1);
+		queue<int> q;
+ 
+		dist[s] = 0;
+		q.push(s);
+		mn[s] = numeric_limits<F>::max();
+	
+		while (!q.empty()) {
+			int v = q.front();
+			q.pop();
+ 
+			for (int id : adj[v]) {
+				int u = E[id].to;
+				if (!E[id].cap) continue;
+ 
+				if (dist[u] > dist[v] + E[id].cost) {
+					dist[u] = dist[v] + E[id].cost;
+					q.push(u);
+					par[u] = id;
+					mn[u] = min(mn[v], E[id].cap);
 				}
 			}
 		}
 	}
-	if (!res) return 0;
-	ans+=dist[snk];
-	int v=snk;
-	while (v^src){
-		int i=par[v];
-		cap[i]--;
-		cap[i^1]++;
-		v=to[i^1];
+ 
+	inline F solve() {
+		SPFA();
+ 
+		if (par[t] == -1) return 0;
+		F c = mn[t], v = t;
+		flow += c;
+		cost += c * dist[t];
+ 
+		while (v != s) {
+			int id = par[v];
+			E[id].cap -= c;
+			E[id ^ 1].cap += c;
+			v = E[id].from;
+		}
+ 
+		return c;
 	}
-	return 1;
-}
-//	memset(head, -1, sizeof(head));
+ 
+	inline pair<F, C> max_flow(int _s, int _t) {
+		s = _s, t = _t;
+		while (true) {
+			F c = solve();
+			if (!c) break;
+		}
+ 
+		return {flow, cost};
+	}
+};
+ 
+const ll MAXN = 402;
+MinCostMaxFlow<int, double, MAXN * 2, MAXN * MAXN> flow;
