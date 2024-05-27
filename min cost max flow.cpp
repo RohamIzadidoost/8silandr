@@ -36,3 +36,4 @@ bool Flow(int src, int snk){
 	}
 	return 1;
 }
+//	memset(head, -1, sizeof(head));
