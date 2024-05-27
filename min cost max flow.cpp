@@ -1,4 +1,6 @@
-
+const int FN = 2 * maxn , FM = maxn * maxn / 2 ; 
+int head[FN], Q[FN*30], par[FN], inq[FN], L, R;
+ld dist[FN], cost[FM<<1], ans;
 inline void add_edge(int u, int v, int c, ld w){
 	to[M]=v, cap[M]=c, cost[M]=w, prv[M]=head[u], head[u]=M++;
 	to[M]=u, cap[M]=0, cost[M]=-w, prv[M]=head[v], head[v]=M++;
