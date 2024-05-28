@@ -1,4 +1,5 @@
- 
+//harki mesle i khodesh 2 * i notesh 2 * i + 1 he
+//yale u -> v yani agar u yek baseh v ham bayad yek bashe
 vector<int> out[maxn * 2] , in[maxn * 2] , topol , adj[maxn];
  
 bool visited[maxn * 2];
