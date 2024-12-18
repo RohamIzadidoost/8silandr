@@ -1,2 +1,20 @@
+[Template]
+sublime_config 
+temp.cpp
+[Implementation]
+token.cpp
+[Data Structure]
+hld.cpp
+
+
 [Graph]
-2sat.cpp	2sat
+mcmf.cpp MinCostMaxFlow
+centroid.cpp Centroid
+
+[Strings]
+ahoo.cpp Aho
+hash.cpp Hash
+
+[Dp]
+matrice.cpp Matrix
+SOS.cpp

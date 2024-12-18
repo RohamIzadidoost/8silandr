@@ -19,3 +19,20 @@ Compress:
 sort(all(v))
 v.erase(unique(all(v)) , v.end())
 
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+ 
+using namespace __gnu_pbds;
+typedef cc_hash_table<ll, ll, hash<ll>> ht;
+
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+ 
+using namespace __gnu_pbds;
+typedef cc_hash_table<
+    ll, ll, hash<ll>, equal_to<ll>, direct_mask_range_hashing<ll>,
+    hash_standard_resize_policy<hash_exponential_size_policy<>, hash_load_check_resize_trigger<true>, true>>
+    ht;
+ 
