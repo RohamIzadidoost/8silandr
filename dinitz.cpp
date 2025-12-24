@@ -47,3 +47,34 @@ int dinic(int source, int sink){
 
 	memset(head, -1, sizeof(head));
 //mohem
+
+// 1. Get flow on a specific edge index 'e'
+int get_flow(int e) {
+    // If the edge was added as addEdge(u, v, uv, 0):
+    return cap[e ^ 1]; 
+}
+
+// 2. Find Min-Cut Edges
+vector<int> get_min_cut() {
+    vector<int> cut_edges;
+    // bfs(source, sink) must be called last to set lv[]
+    for (int i = 0; i < ec; i += 2) { // Only check forward edges
+        int u = from[i], v = to[i];
+        if (lv[u] < 1e8 && lv[v] >= 1e8) {
+            cut_edges.push_back(i);
+        }
+    }
+    return cut_edges;
+}
+
+// 3. Bipartite Matching Recovery
+void print_matching(int n_left) {
+    for (int i = 0; i < ec; i += 2) {
+        int u = from[i], v = to[i];
+        // Assuming nodes 1..n_left are left side, others are right side
+        // Filter out source (0) and sink (T) edges
+        if (u >= 1 && u <= n_left && v > n_left && cap[i^1] > 0) {
+            cout << u << " matched with " << v << endl;
+        }
+    }
+}
