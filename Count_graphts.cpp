@@ -76,3 +76,58 @@ void clr(int n) {
         }
     }
 }
+
+================================================================================
+                    PRUFER SEQUENCES & TREE ENUMERATION
+================================================================================
+
+[1. PRUFER SEQUENCE BASICS]
+- A Prüfer sequence uniquely represents a labeled tree of N nodes using a 
+  sequence of length N-2.
+- Bijection: {Labeled Trees with N nodes} <-> {Sequences of length N-2 in [1, N]}.
+- Cayley's Formula: Total number of labeled trees = N^(N-2).
+
+[2. CONSTRUCTION & RECONSTRUCTION]
+- Tree to Sequence (O(N)): Repeatedly remove the leaf with the smallest label 
+  and append its neighbor's label to the sequence.
+- Sequence to Tree (O(N)): Maintain degrees of all nodes (deg = freq_in_seq + 1). 
+  Connect the first element of the sequence to the smallest label with deg=1.
+
+[3. THE DEGREE PROPERTY (MOST IMPORTANT)]
+- Node 'i' appears in the Prüfer sequence exactly (deg(i) - 1) times.
+- Application: Count trees with fixed degrees d1, d2, ..., dN:
+  Formula: (N-2)! / [ (d1-1)! * (d2-1)! * ... * (dN-1)! ]
+  (This is the Multinomial Coefficient).
+
+[4. MATRIX TREE THEOREM (GENERAL GRAPHS)]
+To count the number of spanning trees in a general graph G:
+1. Construct the Laplacian Matrix L = D - A.
+   - D: Diagonal matrix where D[i][i] = degree of node i.
+   - A: Adjacency matrix where A[i][j] = number of edges between i and j.
+2. Delete any row 'r' and any column 'c' (usually r=c) to get matrix L'.
+3. Number of spanning trees = |det(L')|.
+4. Complexity: O(N^3) via Gaussian Elimination.
+
+[5. DIRECTED SPANNING TREES (ARBORESCENCES)]
+To count spanning trees rooted at 'R' in a directed graph:
+1. L = D_in - A. (D_in is the in-degree matrix).
+2. Spanning trees rooted at R (edges point toward R) = det of L with row/col R removed.
+3. If edges point AWAY from R, use D_out instead.
+
+[6. BEST'S THEOREM (EULERIAN CIRCUITS)]
+Number of Eulerian circuits in a directed graph G:
+- Formula: ec(G) = t_w(G) * Product_{v in V} (deg_out(v) - 1)!
+- t_w(G) is the number of arborescences rooted at any node w.
+
+[7. MATRIX TREE THEOREM WITH WEIGHTS]
+- To find the sum of products of edge weights for all spanning trees:
+  Set A[i][j] = sum of weights of edges between i and j.
+  Set D[i][i] = sum of weights of all edges incident to i.
+  Result = det(L' with row/col removed).
+
+[8. LGV LEMMA (NON-INTERSECTING PATHS)]
+Counting non-intersecting paths from A={a1..ak} to B={b1..bk} in a DAG:
+1. Create matrix M where M[i][j] = number of paths from ai to bj.
+2. Result = det(M).
+
+================================================================================
